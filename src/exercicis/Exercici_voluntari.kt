@@ -18,9 +18,9 @@ fun main() {
                 fichero = File(fichero.parentFile.path)
             }
         } else if (opcion != 0 && opcion != -1) {
-            if (files[opcion - 1].isDirectory) {
-                if (files[opcion - 1].canRead()) {
-                    fichero = files[opcion - 1]
+            if (files.sorted()[opcion - 1].isDirectory) {
+                if (files.sorted()[opcion - 1].canRead()) {
+                    fichero = files.sorted()[opcion - 1]
                 }
             }
         }
@@ -36,7 +36,7 @@ fun preguntarOpcionVoluntari(f : File): Int {
         println("-".repeat(titulo.length))
         num = 1
         println("0.- Directori pare")
-        for (e in f.listFiles()) {
+        for (e in f.listFiles().sorted()) {
             if (e.isDirectory) {
                 print("$num.- d")
 
