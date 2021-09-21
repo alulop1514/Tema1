@@ -3,10 +3,23 @@ package exercicis
 import java.io.File
 
 fun main() {
-    val fichero = File("/Users/lucalopez/IdeaProjects/Tema1")
+    var fichero = File.listRoots()[0]
     var opcion = 0
+    var files : Array<File>
     do {
+        files = fichero.listFiles()
         opcion = preguntarOpcion(fichero)
+        if (opcion == 0) {
+            if (fichero.parentFile != null) {
+                fichero = File(fichero.parentFile.path)
+            }
+        } else if (opcion != 0 || opcion != -1) {
+            if (files[opcion - 1].isDirectory) {
+                if (files[opcion - 1].canRead()) {
+                    fichero = files[opcion - 1]
+                }
+            }
+        }
     } while (opcion != -1)
 }
 
