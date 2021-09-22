@@ -16,12 +16,18 @@ fun main() {
         if (opcion == 0) {
             if (fichero.parentFile != null) {
                 fichero = File(fichero.parentFile.path)
+            } else {
+                println("\nEl directori seleccionat no te pare")
             }
         } else if (opcion != 0 && opcion != -1) {
             if (files.sorted()[opcion - 1].isDirectory) {
                 if (files.sorted()[opcion - 1].canRead()) {
                     fichero = files.sorted()[opcion - 1]
+                } else {
+                    println("\nNo tens permisos de lectura per al directori seleccionat")
                 }
+            } else {
+                println("\nHas seleccionat un fitxer")
             }
         }
     } while (opcion != -1)
@@ -30,6 +36,7 @@ fun main() {
 fun preguntarOpcionVoluntari(f : File): Int {
     var num = 1
     var titulo : String
+    var opcionEscogida : String
     do {
         titulo = "Llista de fitxers i directoris del directori " + f.path
         println(titulo)
@@ -39,7 +46,6 @@ fun preguntarOpcionVoluntari(f : File): Int {
         for (e in f.listFiles().sorted()) {
             if (e.isDirectory) {
                 print("$num.- d")
-
             } else {
                 print("$num.- ")
             }
@@ -55,12 +61,20 @@ fun preguntarOpcionVoluntari(f : File): Int {
                 print("x")
             else
                 print("-")
-            var data = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(e.lastModified());
+            val data = SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(e.lastModified());
             println(" ${e.length()}  $data  ${e.name}")
             num++
         }
         print("\nIntrodueix un número (-1 per acabar): ")
-        num = readLine()!!.toInt()
+        opcionEscogida = readLine()!!
+        if (esInt(opcionEscogida)) {
+            num = opcionEscogida.toInt()
+            if (num > f.listFiles().size || num < -1) {
+                println("\nTe que ser un numero del -1 al ${f.listFiles().size}")
+            }
+        } else {
+            println("\nNo has introduit un numero")
+        }
     } while (num > f.listFiles().size || num < -1)
     return num
 }

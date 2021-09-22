@@ -1,10 +1,11 @@
 package exercicis
 
 import java.io.File
+import java.lang.NumberFormatException
 
 fun main() {
     var fichero = File.listRoots()[0]
-    var opcion = 0
+    var opcion: Int
     var files : Array<File>
     do {
         files = fichero.listFiles()
@@ -12,20 +13,27 @@ fun main() {
         if (opcion == 0) {
             if (fichero.parentFile != null) {
                 fichero = File(fichero.parentFile.path)
+            } else {
+                println("\nEl directori seleccionat no te pare")
             }
         } else if (opcion != 0 && opcion != -1) {
             if (files.sorted()[opcion - 1].isDirectory) {
                 if (files.sorted()[opcion - 1].canRead()) {
                     fichero = files.sorted()[opcion - 1]
+                } else {
+                    println("\nNo tens permisos de lectura per al directori seleccionat")
                 }
+            } else {
+                println("\nHas seleccionat un fitxer")
             }
         }
     } while (opcion != -1)
 }
 
 fun preguntarOpcion(f : File): Int {
-    var num = 1
+    var num: Int
     var titulo : String
+    var opcionEscogida : String
     do {
         titulo = "Llista de fitxers i directoris del directori " + f.path
         println(titulo)
@@ -42,7 +50,25 @@ fun preguntarOpcion(f : File): Int {
             num++
         }
         print("\nIntrodueix un número (-1 per acabar): ")
-        num = readLine()!!.toInt()
+        opcionEscogida = readLine()!!
+        if (esInt(opcionEscogida)) {
+            num = opcionEscogida.toInt()
+            if (num > f.listFiles().size || num < -1) {
+                println("\nTe que ser un numero del -1 al ${f.listFiles().size}")
+            }
+        } else {
+            println("\nNo has introduit un numero")
+        }
     } while (num > f.listFiles().size || num < -1)
     return num
+}
+
+fun esInt(input: String?): Boolean {
+    var esInt = false
+    try {
+        input?.toInt()
+        esInt = true
+    } catch (ex: NumberFormatException) {
+    }
+    return esInt
 }
