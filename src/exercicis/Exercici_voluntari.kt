@@ -60,7 +60,7 @@ fun preguntarOpcionVoluntari(f : File): Int {
             num++
         }
         print("\nIntrodueix un número (-1 per acabar): ")
-        num = readLine()?.toInt() as Int
+        num = readLine()!!.toInt()
     } while (num > f.listFiles().size || num < -1)
     return num
 }

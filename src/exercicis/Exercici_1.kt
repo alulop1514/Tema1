@@ -14,9 +14,9 @@ fun main() {
                 fichero = File(fichero.parentFile.path)
             }
         } else if (opcion != 0 && opcion != -1) {
-            if (files[opcion - 1].isDirectory) {
-                if (files[opcion - 1].canRead()) {
-                    fichero = files[opcion - 1]
+            if (files.sorted()[opcion - 1].isDirectory) {
+                if (files.sorted()[opcion - 1].canRead()) {
+                    fichero = files.sorted()[opcion - 1]
                 }
             }
         }
@@ -32,7 +32,7 @@ fun preguntarOpcion(f : File): Int {
         println("-".repeat(titulo.length))
         num = 1
         println("0.- Directori pare")
-        for (e in f.listFiles()) {
+        for (e in f.listFiles().sorted()) {
             if (e.isDirectory) {
                 println("$num.- ${e.name} <Directori>")
 
@@ -42,7 +42,7 @@ fun preguntarOpcion(f : File): Int {
             num++
         }
         print("\nIntrodueix un número (-1 per acabar): ")
-        num = readLine()?.toInt() as Int
+        num = readLine()!!.toInt()
     } while (num > f.listFiles().size || num < -1)
     return num
 }
