@@ -2,6 +2,7 @@ package exercicis
 
 
 import java.io.File
+import java.lang.NumberFormatException
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -67,12 +68,12 @@ fun preguntarOpcionVoluntari(f : File): Int {
         }
         print("\nIntrodueix un número (-1 per acabar): ")
         opcionEscogida = readLine()!!
-        if (esInt(opcionEscogida)) {
+        try {
             num = opcionEscogida.toInt()
             if (num > f.listFiles().size || num < -1) {
                 println("\nTe que ser un numero del -1 al ${f.listFiles().size}")
             }
-        } else {
+        } catch (ex: NumberFormatException) {
             println("\nNo has introduit un numero")
         }
     } while (num > f.listFiles().size || num < -1)

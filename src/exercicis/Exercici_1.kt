@@ -51,24 +51,15 @@ fun preguntarOpcion(f : File): Int {
         }
         print("\nIntrodueix un número (-1 per acabar): ")
         opcionEscogida = readLine()!!
-        if (esInt(opcionEscogida)) {
+        try {
             num = opcionEscogida.toInt()
             if (num > f.listFiles().size || num < -1) {
                 println("\nTe que ser un numero del -1 al ${f.listFiles().size}")
             }
-        } else {
+        } catch (ex: NumberFormatException) {
             println("\nNo has introduit un numero")
         }
-    } while (num > f.listFiles().size || num < -1)
+    } while (!(num <= f.listFiles().size && num >= -1))
     return num
 }
 
-fun esInt(input: String?): Boolean {
-    var esInt = false
-    try {
-        input?.toInt()
-        esInt = true
-    } catch (ex: NumberFormatException) {
-    }
-    return esInt
-}
